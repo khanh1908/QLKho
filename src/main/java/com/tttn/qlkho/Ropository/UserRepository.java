@@ -8,4 +8,6 @@ import com.tttn.qlkho.Model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
 
+    User findByUserName(String userName);
+    // User findByuserName(String userName);
 }

@@ -32,7 +32,7 @@ public class User {
     @Column(name = "Address")
     private String Address;
 
-    @Column(name = "CCCD",nullable = false, unique = true)
+    @Column(name = "CCCD",nullable = true, unique = true)
     private String CCCD;
 
     @Column(name = "user_name",nullable = false, unique = true)
@@ -44,16 +44,22 @@ public class User {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role;
+
     @Column(name = "Sdt", length = 12, unique = true)
     private String SDT;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // Quan hệ 1-n với đối tượng PhieuNhapKho (1 NHANVIEN co nhiều phiếu nhập kho)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    // MapopedBy trỏ tới private User user ở trong PhieuNhapKho.
     private Collection<PhieuNhap> PhieuNhap;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY) // Quan hệ 1-n với đối tượng PhieuNhapKho (1 NHANVIEN co nhiều phiếu nhập kho)
-    // MapopedBy trỏ tới private User user ở trong PhieuNhapKho.
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
     private Collection<PhieuXuat> PhieuXuat;
+
+    public boolean isAdmin() {
+        return RoleEnum.ADMIN.equals(role);
+    }
 }
