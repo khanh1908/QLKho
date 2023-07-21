@@ -20,9 +20,9 @@ public class DanhMuc {
     @Column(name = "TenDM")
     private String TenDM;
 
-    @OneToMany(mappedBy = "danhmuc", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng PhieuNhapKho (1 NHANVIEN co nhiều phiếu nhập kho)
-    @JsonIgnore
-    // MapopedBy trỏ tới private User user ở trong PhieuNhapKho.
-    private Collection<SanPham> SanPham;
+    // @OneToMany(mappedBy = "danhmuc", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng PhieuNhapKho (1 NHANVIEN co nhiều phiếu nhập kho)
+    // @JsonIgnore
+    // // MapopedBy trỏ tới private User user ở trong PhieuNhapKho.
+    // private Collection<SanPham> SanPham;
 
 }

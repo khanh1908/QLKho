@@ -25,7 +25,7 @@ public class SanPham {
     @JoinColumn(name = "id_danhmuc") // // thông qua khóa ngoại id
     private DanhMuc danhmuc;
 
-    @OneToMany(mappedBy = "sanpham", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Collection<CT_SP_NCC> ct_sp_ncc;
+    // @OneToMany(mappedBy = "sanpham", cascade = CascadeType.ALL)
+    // @JsonIgnore
+    // private Collection<CT_SP_NCC> ct_sp_ncc;
 }

@@ -62,4 +62,8 @@ public class User {
     public boolean isAdmin() {
         return RoleEnum.ADMIN.equals(role);
     }
+
+    public User orElseThrow(Object object) {
+        return null;
+    }
 }

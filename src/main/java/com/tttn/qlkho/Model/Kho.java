@@ -18,7 +18,7 @@ public class Kho {
     private long id;
 
     @Column(name = "TenKho")
-    private String TenKho;
+    private String tenKho;
 
     @Column(name = "Email", unique = true)
     private String email;

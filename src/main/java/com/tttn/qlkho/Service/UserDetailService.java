@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.tttn.qlkho.Model.RoleEnum;
 import com.tttn.qlkho.Model.User;
 import com.tttn.qlkho.Ropository.UserRepository;
 
@@ -19,6 +21,9 @@ public class UserDetailService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     // @Autowired
     // private PasswordEncoder passwordEncoder;
     public User findByUsername(String username) {
@@ -26,15 +31,29 @@ public class UserDetailService implements UserDetailsService {
     }
     public User createUser(User user) {
         // Kiểm tra xem người dùng đã tồn tại chưa
-        if (findByUsername(user.getUserName()) != null) {
+        if (findByUsername(user.getUserName()) != null ) {
             throw new IllegalArgumentException("Người dùng đã tồn tại");
         }
-
+        else{
+            if(user.getRole()==null)
+            {
+                user.setRole(RoleEnum.USER);
+            }
+        }
         // Thực hiện lưu người dùng vào cơ sở dữ liệu
         return userRepository.save(user);
     }
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
+    }
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+    public User getUserByName(String Username) {
+        return userRepository.findByUserName(Username);
+    }
+    public User updateUser(Long id, User user) {
+        return userRepository.save(user);
     }
     // @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -55,4 +74,16 @@ public class UserDetailService implements UserDetailsService {
             authorities
         );
 }
+    public void changePassword(Long userId, String oldPassword, String newPassword) {
+        User user = getUserById(userId);
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+            // Mật khẩu cũ khớp, tiến hành thay đổi mật khẩu
+            // String newEncodedPassword = passwordEncoder.encode(newPassword);
+            // user.setPassword(passwordEncoder.encode(password));
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Incorrect old password");
+        }
+    }
 }

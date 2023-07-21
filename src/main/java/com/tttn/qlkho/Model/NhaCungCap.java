@@ -29,7 +29,7 @@ public class NhaCungCap {
     @Column(name = "SDT",nullable = false, unique = true)
     private String SDT;
 
-    @OneToMany(mappedBy = "nhacungcap", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Collection<CT_SP_NCC> ct_sp_ncc;
+    // @OneToMany(mappedBy = "nhacungcap", cascade = CascadeType.ALL)
+    // @JsonIgnore
+    // private Collection<CT_SP_NCC> ct_sp_ncc;
 }
