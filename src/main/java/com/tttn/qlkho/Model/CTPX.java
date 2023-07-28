@@ -24,8 +24,8 @@ public class CTPX {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    @JoinColumn(name = "id_ctkho") // // thông qua khóa ngoại id
-    private CT_Kho ctkho;
+    @JoinColumn(name = "id_sp") // // thông qua khóa ngoại id
+    private SanPham sanpham;
 
     @Column(name = "soluong")
     private int soluong;

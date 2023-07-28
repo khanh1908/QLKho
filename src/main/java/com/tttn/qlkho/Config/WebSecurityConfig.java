@@ -31,9 +31,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
             .cors().and()
             .csrf().disable()
             .authorizeRequests()
-                .antMatchers("/auth/*").permitAll()
-                .antMatchers("/users").hasRole("ADMIN")
-                .anyRequest().authenticated();
+                .antMatchers("/**").permitAll()
+            //     // .antMatchers("/users").hasRole("ADMIN")
+            //     .anyRequest().authenticated();
+            // .cors().and()
+            // .csrf().disable()
+            // .authorizeRequests()
+                // .antMatchers("/auth/register", "/auth/login").permitAll() // Các yêu cầu không cần xác thực
+                // .antMatchers("/User/**").authenticated() // Yêu cầu /User/** cần xác thực
+                .anyRequest().permitAll();
             // .and()
             //     .formLogin()
             //     .defaultSuccessUrl("/dashboard");

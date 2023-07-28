@@ -9,5 +9,5 @@ import com.tttn.qlkho.Model.User;
 public interface UserRepository extends JpaRepository<User, Long>{
 
     User findByUserName(String userName);
-    // User findByuserName(String userName);
+    User findByEmail(String email);
 }

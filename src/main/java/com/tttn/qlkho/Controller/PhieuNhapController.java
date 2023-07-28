@@ -19,8 +19,6 @@ public class PhieuNhapController {
     public ResponseEntity<String> taoPhieuNhapSanPham(@RequestBody AddSanPham request) {
         String result = phieuNhapService.taoPhieuNhapSanPham(request.getTenSanPham(), 
                                                             request.getGia(),
-                                                            request.getTenDanhMuc(), 
-                                                            request.getTenNhaCungCap(), 
                                                             request.getSoLuong());
                     System.out.println("BBBBBBBBBBB"+result);
         return ResponseEntity.ok(result);

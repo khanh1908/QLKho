@@ -19,7 +19,7 @@ import com.tttn.qlkho.Service.NhaCungCapService;
 
 @RestController
 @RequestMapping("/NhaCungCap")
-@PreAuthorize("hasRole('ADMIN')")
+// @PreAuthorize("hasRole('ADMIN')")
 public class NhaCungCapController {
     @Autowired
     NhaCungCapService NhacungcapService;

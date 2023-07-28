@@ -14,7 +14,7 @@ import com.tttn.qlkho.Response.APIResponse;
 import com.tttn.qlkho.Service.UserDetailService;
 @RestController
 @RequestMapping("/User")
-@PreAuthorize("hasRole('USER')")
+// @PreAuthorize("hasRole('USER')")
 public class UserDetail {
     @Autowired
     UserDetailService UserService;

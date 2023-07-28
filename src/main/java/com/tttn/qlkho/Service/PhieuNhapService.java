@@ -16,9 +16,8 @@ public class PhieuNhapService {
         this.phieunhapRepo = phieunhapRepo;
     }
 
-    public String taoPhieuNhapSanPham(String tenSanPham, BigDecimal gia, String tenDanhMuc,
-                                      String tenNhaCungCap, int soLuong) {
-        System.out.println("AAAAAAAA" + tenDanhMuc + tenNhaCungCap + gia + soLuong + tenSanPham);
-        return phieunhapRepo.taoPhieuNhapSanPham(tenSanPham, gia, tenDanhMuc, tenNhaCungCap, soLuong);
+    public String taoPhieuNhapSanPham(String tenSanPham, BigDecimal gia, int soLuong) {
+        System.out.println("AAAAAAAA"  + gia + soLuong + tenSanPham);
+        return phieunhapRepo.taoPhieuNhapSanPham(tenSanPham, gia, soLuong);
     }
 }

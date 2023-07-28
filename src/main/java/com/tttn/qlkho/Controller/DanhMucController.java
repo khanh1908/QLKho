@@ -19,7 +19,7 @@ import com.tttn.qlkho.Service.DanhMucService;
 
 @RestController
 @RequestMapping("/Danhmuc")
-@PreAuthorize("hasRole('ADMIN')")
+// @PreAuthorize("hasRole('ADMIN')")
 public class DanhMucController {
     @Autowired
     DanhMucService danhmucservice;

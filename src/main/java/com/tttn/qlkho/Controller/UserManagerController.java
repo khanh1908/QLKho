@@ -106,6 +106,20 @@ public ResponseEntity<String> register(@RequestBody LoginRequest registrationReq
         userService.changePassword(id, request.getOldPassword(), request.getNewPassword());
         return ResponseEntity.ok("Password changed successfully.");
     }
+    @PostMapping("/forgot-password")
+    public APIResponse forgotPassword(@RequestParam("email") String email) {
+        try {
+            userService.sendPassToEmail(email);
+            APIResponse response = new APIResponse(true, null, "Mật khẩu đã được gửi đến email. Vui lòng kiểm tra lại!");
+            return response;
+        } catch (IllegalArgumentException e) {
+            APIResponse response = new APIResponse(false, e, "Vui lòng kiểm tra lại Email hoặc tài khoản của bạn!");
+            return response;
+        } catch (Exception e) {
+            APIResponse response = new APIResponse(false, e, "Vui lòng kiểm tra lại Email hoặc tài khoản của bạn!");
+            return response;
+        }
+    }
     @GetMapping("/getall")
     public APIResponse getAllUsers() {
         List<User> Userlist = userService.getAllUsers();

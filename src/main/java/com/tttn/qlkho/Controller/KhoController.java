@@ -19,7 +19,7 @@ import com.tttn.qlkho.Service.KhoService;
 
 @RestController
 @RequestMapping("/kho")
-@PreAuthorize("hasRole('ADMIN')")
+// @PreAuthorize("hasRole('ADMIN')")
 public class KhoController {
     @Autowired
     KhoService khoService;

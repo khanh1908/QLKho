@@ -2,8 +2,11 @@ package com.tttn.qlkho.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +27,9 @@ public class UserDetailService implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    // @Autowired
-    // private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
     public User findByUsername(String username) {
         return userRepository.findByUserName(username);
     }
@@ -85,5 +89,36 @@ public class UserDetailService implements UserDetailsService {
         } else {
             throw new IllegalArgumentException("Incorrect old password");
         }
+    }
+    public void sendPassToEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new IllegalArgumentException("User with email " + email + " not found.");
+        }
+        String pass = generatePass();
+        user.setPassword(passwordEncoder.encode(pass));
+        userRepository.save(user);
+        sendPassEmail(email, pass);
+        // System.out.println("abbbbbbbbbbbbbbbbbb"+ pass);
+    }
+
+    private String generatePass() {
+        int PassLength = 6;
+        String numbers = "0123456789";
+        Random random = new Random();
+        StringBuilder password = new StringBuilder(PassLength);
+
+        for (int i = 0; i < PassLength; i++) {
+            password.append(numbers.charAt(random.nextInt(numbers.length())));
+        }
+        return password.toString();
+    }
+
+    private void sendPassEmail(String userEmail, String pass) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(userEmail);
+        message.setSubject("Password Reset");
+        message.setText("Your Pass: " + pass);
+        javaMailSender.send(message);
     }
 }

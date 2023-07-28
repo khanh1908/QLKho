@@ -24,4 +24,5 @@ public class PhieuXuat {
     @JsonIgnore
     @JoinColumn(name = "id_user") // // thông qua khóa ngoại id
     private User user;
+
 }

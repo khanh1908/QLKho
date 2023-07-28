@@ -8,7 +8,5 @@ import lombok.Data;
 public class AddSanPham {
     private String tenSanPham;
     private BigDecimal gia;
-    private String tenDanhMuc;
-    private String tenNhaCungCap;
     private int soLuong;
 }

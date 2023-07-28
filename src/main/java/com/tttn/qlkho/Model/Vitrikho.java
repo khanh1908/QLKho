@@ -29,11 +29,14 @@ public class Vitrikho {
     @Column(name = "SoLuong")
     private int SoLuong;
 
-    // @OneToMany(mappedBy = "VitriKho", cascade = CascadeType.ALL)
-    // @JsonIgnore
-    // private Collection<CT_Kho> ct_kho;
-    // @OneToMany(mappedBy = "vitrikho", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng PhieuNhapKho (1 NHANVIEN co nhiều phiếu nhập kho)
-    // @JsonIgnore
-    // // MapopedBy trỏ tới private User user ở trong PhieuNhapKho.
-    // private Collection<CT_Kho> ctkho;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name = "id_kho") // // thông qua khóa ngoại id
+    private Kho kho;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name = "id_sp") // // thông qua khóa ngoại id
+    private SanPham sp;
 }

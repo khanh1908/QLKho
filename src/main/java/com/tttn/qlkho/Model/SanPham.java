@@ -1,4 +1,5 @@
 package com.tttn.qlkho.Model;
+import java.sql.Date;
 import java.util.Collection;
 
 import javax.persistence.*;
@@ -19,6 +20,12 @@ public class SanPham {
 
     @Column(name = "TenSanPham")
     private String TenSanPham;
+
+    @Column(name = "HanSuDung")
+    private int HanSuDung;
+
+    @Column(name = "NgaySanXuat")
+    private Date NgaySanXuat;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore

@@ -19,7 +19,7 @@ import com.tttn.qlkho.Service.VitriKhoService;
 
 @RestController
 @RequestMapping("/vitrikho")
-@PreAuthorize("hasRole('ADMIN')")
+// @PreAuthorize("hasRole('ADMIN')")
 public class VitriKhoController {
     @Autowired
     VitriKhoService vitrikhoService;
@@ -71,11 +71,6 @@ public class VitriKhoController {
                 if (vitrokho.getKe() != null) {
                     updateVtkho.setKe(vitrokho.getKe());
                 }
-
-                if (vitrokho.getSoLuong() != 0) {
-                    updateVtkho.setSoLuong(vitrokho.getSoLuong());
-                }
-
 
                 vitrikhoService.updatevtkho(id, updateVtkho);
                 APIResponse response = new APIResponse(true, updateVtkho, "ok");

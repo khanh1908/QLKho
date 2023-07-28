@@ -33,9 +33,6 @@ public class CTPN {
     @Column(name = "soluong")
     private int soluong;
 
-    // @Column(name = "gia")
-    // private int gia;
-
      @Column(name = "gia")
     private BigDecimal gia;
 

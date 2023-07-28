@@ -14,12 +14,10 @@ import com.tttn.qlkho.Model.PhieuNhap;
 public interface PhieuNhapRepository extends JpaRepository<PhieuNhap, Long> {
 
     // @Procedure(name = "spTaoPhieuNhapSanPham")
-    @Query(value = "CALL spTaoPhieuNhapSanPham(:pTenSanPham, :pGia, :pTenDanhMuc, :pTenNhaCungCap, :pSoLuong);", nativeQuery = true)
+    @Query(value = "CALL spTaoPhieuNhapSanPham(:pTenSanPham, :pGia, :pSoLuong);", nativeQuery = true)
     String taoPhieuNhapSanPham(
             @Param("pTenSanPham") String tenSanPham,
             @Param("pGia") BigDecimal gia,
-            @Param("pTenDanhMuc") String tenDanhMuc,
-            @Param("pTenNhaCungCap") String tenNhaCungCap,
             @Param("pSoLuong") int soLuong
     );
 }
