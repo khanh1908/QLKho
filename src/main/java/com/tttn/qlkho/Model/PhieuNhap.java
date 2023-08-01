@@ -31,4 +31,9 @@ public class PhieuNhap {
     @JoinColumn(name = "id_ncc") // // thông qua khóa ngoại id
     private NhaCungCap nhacungcap;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name = "id_kho") // // thông qua khóa ngoại id
+    private Kho kho;
+
 }

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tttn.qlkho.Model.Kho;
-import com.tttn.qlkho.Ropository.KhoRepository;
+import com.tttn.qlkho.Repository.KhoRepository;
 
 @Service
 public class KhoService {
@@ -31,5 +31,8 @@ public class KhoService {
     }
     public Kho getKhoByName(String a) {
         return Khorepo.findByTenKho(a);
+    }
+    public Kho findById(Long khoId) {
+        return Khorepo.findById(khoId).orElse(null);
     }
 }

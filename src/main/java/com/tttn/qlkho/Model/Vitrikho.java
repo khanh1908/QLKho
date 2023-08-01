@@ -31,12 +31,12 @@ public class Vitrikho {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    // @JsonIgnore
     @JoinColumn(name = "id_kho") // // thông qua khóa ngoại id
     private Kho kho;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    // @JsonIgnore
     @JoinColumn(name = "id_sp") // // thông qua khóa ngoại id
     private SanPham sp;
 }

@@ -1,4 +1,4 @@
-package com.tttn.qlkho.Ropository;
+package com.tttn.qlkho.Repository;
 
 import java.math.BigDecimal;
 
@@ -14,10 +14,10 @@ import com.tttn.qlkho.Model.PhieuNhap;
 public interface PhieuNhapRepository extends JpaRepository<PhieuNhap, Long> {
 
     // @Procedure(name = "spTaoPhieuNhapSanPham")
-    @Query(value = "CALL spTaoPhieuNhapSanPham(:pTenSanPham, :pGia, :pSoLuong);", nativeQuery = true)
-    String taoPhieuNhapSanPham(
-            @Param("pTenSanPham") String tenSanPham,
-            @Param("pGia") BigDecimal gia,
-            @Param("pSoLuong") int soLuong
-    );
+    // @Query(value = "CALL spTaoPhieuNhapSanPham(:pTenSanPham, :pGia, :pSoLuong);", nativeQuery = true)
+    // String taoPhieuNhapSanPham(
+    //         @Param("pTenSanPham") String tenSanPham,
+    //         @Param("pGia") BigDecimal gia,
+    //         @Param("pSoLuong") int soLuong
+    // );
 }

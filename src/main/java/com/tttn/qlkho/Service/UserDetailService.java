@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.tttn.qlkho.Model.RoleEnum;
 import com.tttn.qlkho.Model.User;
-import com.tttn.qlkho.Ropository.UserRepository;
+import com.tttn.qlkho.Repository.UserRepository;
 
 @Service
 public class UserDetailService implements UserDetailsService {

@@ -13,7 +13,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-
 @Setter
 public class CTPN {
     @Id
@@ -21,12 +20,12 @@ public class CTPN {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    // @JsonIgnore
     @JoinColumn(name = "id_PN") // // thông qua khóa ngoại id
     private PhieuNhap phieunhap;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    // @JsonIgnore
     @JoinColumn(name = "id_sp") // // thông qua khóa ngoại id
     private SanPham sanpham;
 

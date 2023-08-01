@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tttn.qlkho.Model.Vitrikho;
-import com.tttn.qlkho.Ropository.ViTriKhoRepository;
+import com.tttn.qlkho.Repository.ViTriKhoRepository;
 
 @Service
 public class VitriKhoService {

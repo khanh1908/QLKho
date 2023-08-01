@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tttn.qlkho.Model.NhaCungCap;
-import com.tttn.qlkho.Ropository.NhaCungCapRepository;
+import com.tttn.qlkho.Repository.NhaCungCapRepository;
 
 @Service
 public class NhaCungCapService {
