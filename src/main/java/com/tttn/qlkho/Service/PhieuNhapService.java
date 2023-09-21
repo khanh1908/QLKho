@@ -1,10 +1,12 @@
 package com.tttn.qlkho.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tttn.qlkho.Model.NhaCungCap;
 import com.tttn.qlkho.Model.PhieuNhap;
 import com.tttn.qlkho.Repository.PhieuNhapRepository;
 
@@ -27,5 +29,8 @@ public class PhieuNhapService {
 
     public PhieuNhap createPhieuNhap(PhieuNhap phieuNhap) {
         return phieunhaprepo.save(phieuNhap);
+    }
+    public List<PhieuNhap> getAllPN(){
+        return  phieunhaprepo.findAll();
     }
 }

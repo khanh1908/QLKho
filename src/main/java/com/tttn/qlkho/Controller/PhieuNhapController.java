@@ -1,23 +1,38 @@
 package com.tttn.qlkho.Controller;
 
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tttn.qlkho.DTO.AddSanPham;
+import com.tttn.qlkho.DTO.DoanhThu;
 import com.tttn.qlkho.DTO.PhieuNhapRequest;
+import com.tttn.qlkho.DTO.ThongKeSanPhamNhap;
+import com.tttn.qlkho.DTO.ThongKeTienNhap;
 import com.tttn.qlkho.Model.CTPN;
 import com.tttn.qlkho.Model.Kho;
+import com.tttn.qlkho.Model.NhaCungCap;
 import com.tttn.qlkho.Model.PhieuNhap;
 import com.tttn.qlkho.Model.SanPham;
 import com.tttn.qlkho.Model.Vitrikho;
+import com.tttn.qlkho.Response.APIResponse;
 import com.tttn.qlkho.Service.CTPNService;
 import com.tttn.qlkho.Service.KhoService;
 import com.tttn.qlkho.Service.NhaCungCapService;
@@ -59,20 +74,31 @@ public class PhieuNhapController {
     //     return ResponseEntity.ok(result);
     // }
 
+    @GetMapping()
+    public APIResponse getAllPhieuNhap() {
+        List<PhieuNhap> PhieuNhaplist = phieuNhapService.getAllPN();
+        APIResponse response = new APIResponse(true, PhieuNhaplist, "Danh sách phieu nhap đã được lấy thành công");
+        return response;
+    }
+
+    @GetMapping("/ctpn/{idPhieuNhap}")
+    public List<CTPN> getCTPNByIDPN(@PathVariable Long idPhieuNhap) {
+        return ctpnService.getCTPNByIDPN(idPhieuNhap);
+    }
     @PostMapping("/create")
-    public ResponseEntity<PhieuNhap> createPhieuNhap(@RequestBody PhieuNhapRequest request) {
+    public APIResponse createPhieuNhap(@RequestBody PhieuNhapRequest request) {
         // Lấy thông tin từ DTO
         Long nhaCungCapId = request.getNhaCungCapId();
         Long userId = request.getUserId();
         List<CTPN> chiTietPhieuNhapList = request.getChiTietPhieuNhapList();
-        List<Vitrikho> viTriKhoList = request.getViTriKhoList();
-        Long khoId = request.getKhoId();
+        // List<Vitrikho> viTriKhoList = request.getViTriKhoList();
+        // Long VitrikhoId = request.getVitrikhoId();
         // Long sanphamId = request.getSanphamId();
 
         // Tạo đối tượng Phiếu Nhập và set thông tin từ người dùng
         PhieuNhap phieuNhap = new PhieuNhap();
         Date currentDate = new Date(System.currentTimeMillis());
-        phieuNhap.setNgayNhap(currentDate); // Hoặc bạn có thể lấy ngày nhập từ DTO nếu client gửi lên
+        phieuNhap.setNgayNhap(currentDate); 
         phieuNhap.setNhacungcap(nhaCungCapService.getNhacungCapById(nhaCungCapId));
         phieuNhap.setUser(userservice.getUserById(userId));
         // Lưu phiếu nhập
@@ -87,19 +113,58 @@ public class PhieuNhapController {
             SanPham sanpham = sanPhamService.getSanPhamById(chiTietPhieuNhap.getSanpham().getId());
             chiTietPhieuNhap.setSanpham(sanpham);
             ctpnService.createCTPN(chiTietPhieuNhap);
-        }
-
-        // Lưu vi trí kho
-        Kho kho = khoservice.findById(khoId);
-        for (Vitrikho viTriKho : viTriKhoList) {
-            viTriKho.setKho(kho);
-            // Lưu thông tin vi trí kho
-            SanPham sanpham = sanPhamService.getSanPhamById(viTriKho.getSp().getId());
-            viTriKho.setSp(sanpham);            // Lưu thông tin chi tiết phiếu nhập
-            vitriKhoService.createvtkho(viTriKho);
-        }
-
-        return new ResponseEntity<>(phieuNhap, HttpStatus.CREATED);
+            sanpham.setSoLuong(sanpham.getSoLuong() + chiTietPhieuNhap.getSoluong());
+            sanPhamService.updateSanPhamSl(sanpham);
+                // APIResponse response = new APIResponse(true, viTriKho.getSoLuong(), "san pham da duoc them vao kho");
+                // return response;
+            }
+            // Vitrikho viTriKho = vitriKhoService.getViTriKhoBySanPhamAndKho(sanpham, kho);
+            // System.out.println("aaaaaaaaaaaaaa" + viTriKho);
+            // viTriKho.setSoLuong(viTriKho.getSoLuong() + chiTietPhieuNhap.getSoluong());
+            // vitriKhoService.updatevitrikho(viTriKho);
+        APIResponse response = new APIResponse(true, phieuNhap, "Tao phieu nhap thanh cong");
+        return response;
     }
 
+    @GetMapping("/soluongsanpham")
+    public APIResponse thongKeSoLuongSanPhamController() {
+        List<ThongKeSanPhamNhap> resultList = ctpnService.thongKeSoLuongSanPhamNhap();
+        APIResponse response = new APIResponse(true, resultList, "Thong ke so luong san pham nhap");
+        return response;
+    }
+
+     @GetMapping("/tongtiennhap")
+    public APIResponse thongKeTongTienNhapSanPhamController() {
+        List<ThongKeTienNhap> resultList = ctpnService.thongKeTongTienNhapSanPham();
+        APIResponse response = new APIResponse(true, resultList, "Thong ke tong tien nhap");
+        return response;
+    }
+
+    // @GetMapping("/doanhthu")
+    // public ResponseEntity<List<DoanhThu>> thongKeDoanhThuTheoNgay(
+    //         @RequestParam("fromDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+    //         @RequestParam("toDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
+    //     List<DoanhThu> doanhThuList = ctpnService.thongKeDoanhThuSanPhamTheoNgay(fromDate, toDate);
+    //     return ResponseEntity.ok(doanhThuList);
+    // }
+
+
+// @GetMapping("/tongtiennhap")
+//     public APIResponse thongKeTongTienNhapSanPham() {
+//         Map<PhieuNhap, BigDecimal> thongKe = ctpnService.thongKeTongTienNhapSanPham();
+        
+//         // Chuyển đổi Map thành JSON
+//         ObjectMapper objectMapper = new ObjectMapper();
+//         String jsonString;
+//         try {
+//             jsonString = objectMapper.writeValueAsString(thongKe);
+//         } catch (JsonProcessingException e) {
+//             e.printStackTrace();
+//             // Xử lý lỗi nếu cần
+//             return new APIResponse(false, null, "Lỗi khi chuyển đổi dữ liệu sang JSON");
+//         }
+
+//         APIResponse response = new APIResponse(true, jsonString, "Thong ke tong tien nhap");
+//         return response;
+    // }
 }

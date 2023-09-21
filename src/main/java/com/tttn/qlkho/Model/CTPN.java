@@ -19,12 +19,12 @@ public class CTPN {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     // @JsonIgnore
     @JoinColumn(name = "id_PN") // // thông qua khóa ngoại id
     private PhieuNhap phieunhap;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     // @JsonIgnore
     @JoinColumn(name = "id_sp") // // thông qua khóa ngoại id
     private SanPham sanpham;

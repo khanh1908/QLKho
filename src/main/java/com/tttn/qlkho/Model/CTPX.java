@@ -17,13 +17,13 @@ public class CTPX {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @ManyToOne
+    // @JsonIgnore
     @JoinColumn(name = "id_PX") // // thông qua khóa ngoại id
     private PhieuXuat phieuxuat;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @ManyToOne
+    // @JsonIgnore
     @JoinColumn(name = "id_sp") // // thông qua khóa ngoại id
     private SanPham sanpham;
 

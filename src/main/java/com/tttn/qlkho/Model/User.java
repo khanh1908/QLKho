@@ -51,13 +51,13 @@ public class User {
     @Column(name = "Sdt", length = 12, unique = true)
     private String SDT;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Collection<PhieuNhap> PhieuNhap;
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // @JsonIgnore
+    // private Collection<PhieuNhap> PhieuNhap;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Collection<PhieuXuat> PhieuXuat;
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    // @JsonIgnore
+    // private Collection<PhieuXuat> PhieuXuat;
 
     public boolean isAdmin() {
         return RoleEnum.ADMIN.equals(role);

@@ -18,19 +18,30 @@ public class SanPham {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "TenSanPham")
+    @Column(name = "TenSanPham", unique = true)
     private String TenSanPham;
 
     @Column(name = "HanSuDung")
-    private int HanSuDung;
+    private Date HanSuDung;
 
     @Column(name = "NgaySanXuat")
     private Date NgaySanXuat;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @Column(name = "TrangThai")
+    private String TrangThai;
+
+    @Column(name = "SoLuong")
+    private int SoLuong;
+
+    @ManyToOne
+    // @JsonIgnore
     @JoinColumn(name = "id_danhmuc") // // thông qua khóa ngoại id
     private DanhMuc danhmuc;
+
+    @ManyToOne
+    // @JsonIgnore
+    @JoinColumn(name = "id_vitrikho") // // thông qua khóa ngoại id
+    private Vitrikho vitrikho;
 
     // @OneToMany(mappedBy = "sanpham", cascade = CascadeType.ALL)
     // @JsonIgnore

@@ -20,8 +20,8 @@ public class PhieuXuat {
     @Column(name = "ngay_xuat",nullable = false)
     private Date ngayxuat;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @ManyToOne
+    // @JsonIgnore
     @JoinColumn(name = "id_user") // // thông qua khóa ngoại id
     private User user;
 

@@ -30,10 +30,26 @@ public class VitriKhoController {
         APIResponse response = new APIResponse(true, Vitrikholist, "danh sach vi tri kho đã được lấy thành công");
         return response;
     }
+    // @GetMapping("/sp/{spId}")
+    // public List<Vitrikho> getVitrikhoBySpId(@PathVariable long spId) {
+    //     return vitrikhoService.getVitrikhoBySpId(spId);
+    // }
+    @GetMapping("/kho/{khoId}")
+    public List<Vitrikho> getVitrikhoBykhoId(@PathVariable long khoId) {
+        return vitrikhoService.getVitrikhoByKhoId(khoId);
+    }
     @PostMapping("/them")
     public APIResponse createvitrikho(@RequestBody Vitrikho vitrikho) {
-        // Logic để thêm kho vào cơ sở dữ liệu
-        // Ví dụ:
+        // vitrikho.setSoLuong(0);
+        // if (vitrikho.getSp() == null && vitrikho.getKho() == null){
+        //     APIResponse response = new APIResponse(false, null, "san pham va kho khong duoc bo trong");
+        //     return response;
+        // }
+        // boolean exists = vitrikhoService.doesVitrikhoExist(vitrikho.getSp(), vitrikho.getKho());
+        // if (exists){
+        //     APIResponse response = new APIResponse(true, null, "vi tri kho đã được chua san pham hoac kho tren");
+        //     return response;
+        // }
         vitrikhoService.createvtkho(vitrikho);
 
         // Tạo đối tượng APIResponse
@@ -72,7 +88,7 @@ public class VitriKhoController {
                     updateVtkho.setKe(vitrokho.getKe());
                 }
 
-                vitrikhoService.updatevtkho(id, updateVtkho);
+                vitrikhoService.updatevtkhobyid(id, updateVtkho);
                 APIResponse response = new APIResponse(true, updateVtkho, "ok");
                 return response;
             }

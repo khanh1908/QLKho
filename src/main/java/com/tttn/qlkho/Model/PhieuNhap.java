@@ -21,19 +21,19 @@ public class PhieuNhap {
     @Column(name = "ngay_nhap",nullable = false)
     private Date ngayNhap;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @ManyToOne
+    // @JsonIgnore
     @JoinColumn(name = "id_user") // // thông qua khóa ngoại id
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @ManyToOne
+    // @JsonIgnore
     @JoinColumn(name = "id_ncc") // // thông qua khóa ngoại id
     private NhaCungCap nhacungcap;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    @JoinColumn(name = "id_kho") // // thông qua khóa ngoại id
-    private Kho kho;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JsonIgnore
+    // @JoinColumn(name = "id_kho") // // thông qua khóa ngoại id
+    // private Kho kho;
 
 }

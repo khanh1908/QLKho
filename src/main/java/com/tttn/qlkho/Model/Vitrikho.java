@@ -26,17 +26,13 @@ public class Vitrikho {
     @Column(name = "Ke")
     private String Ke;
 
-    @Column(name = "SoLuong")
-    private int SoLuong;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     // @JsonIgnore
     @JoinColumn(name = "id_kho") // // thông qua khóa ngoại id
     private Kho kho;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    // @JsonIgnore
-    @JoinColumn(name = "id_sp") // // thông qua khóa ngoại id
-    private SanPham sp;
+    // @ManyToOne
+    // // @JsonIgnore
+    // @JoinColumn(name = "id_sp") // // thông qua khóa ngoại id
+    // private SanPham sp;
 }
