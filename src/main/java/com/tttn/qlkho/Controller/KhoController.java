@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tttn.qlkho.Model.Kho;
+import com.tttn.qlkho.Model.SanPham;
 import com.tttn.qlkho.Response.APIResponse;
 import com.tttn.qlkho.Service.KhoService;
 
@@ -30,24 +31,65 @@ public class KhoController {
         APIResponse response = new APIResponse(true, khoList, "Danh sách kho đã được lấy thành công");
         return response;
     }
+    @GetMapping("/{id}")
+    public APIResponse getKhoById(@PathVariable long id){
+
+        try {
+            Kho kho = khoService.getKhoById(id);
+            return new APIResponse(true, kho, "Tìm kiếm kho thanh cong: "+id);
+        } catch (Exception e) {
+            return new APIResponse(false, null, "tim kiem khong thanh cong");
+        }
+    }
     @PostMapping("/them")
     public APIResponse createKho(@RequestBody Kho kho) {
-        // Logic để thêm kho vào cơ sở dữ liệu
-        // Ví dụ:
+        if (khoService.getKhoByName(kho.getTenKho()) != null){
+            APIResponse response = new APIResponse(false, null, "Tên kho đã tồn tại");
+            return response;
+        }
+        if (khoService.getKhoByEmail(kho.getEmail()) != null){
+            APIResponse response = new APIResponse(false, null, "Tên email đã tồn tại");
+            return response;
+        }
+        if (khoService.getKhoBySDT(kho.getSDT()) != null){
+            APIResponse response = new APIResponse(false, null, "Số điện thoại đã tồn tại");
+            return response;
+        }
+        if (kho.getTenKho() == null || kho.getTenKho().isEmpty()) {
+            // Trường tên kho không được trống
+            APIResponse response = new APIResponse(false, null, "Tên kho không được trống");
+            return response;
+        }
+    
+        if (kho.getEmail() == null || kho.getEmail().isEmpty()) {
+            // Trường email không được trống
+            APIResponse response = new APIResponse(false, null, "Email không được trống");
+            return response;
+        }
+    
+        if (kho.getSDT() == null || kho.getSDT().isEmpty()) {
+            // Trường số điện thoại không được trống
+            APIResponse response = new APIResponse(false, null, "Số điện thoại không được trống");
+            return response;
+        }
+    
+        if (kho.getAddress() == null || kho.getAddress().isEmpty()) {
+            // Trường địa chỉ không được trống
+            APIResponse response = new APIResponse(false, null, "Địa chỉ không được trống");
+            return response;
+        }
+    
+        //thêm kho vào cơ sở dữ liệu
         khoService.createKho(kho);
-
-        // Tạo đối tượng APIResponse
+    
         APIResponse response = new APIResponse(true, kho, "Kho đã được thêm thành công");
-
+    
         return response;
     }
     @DeleteMapping("/xoa/{id}")
     public APIResponse deleteKho(@PathVariable Long id) {
-        // Logic để xóa kho từ cơ sở dữ liệu
-        // Ví dụ:
         khoService.deleteKho(id);
 
-        // Tạo đối tượng APIResponse
         APIResponse response = new APIResponse(true, null, "Kho đã được xóa thành công");
 
         return response;

@@ -47,11 +47,9 @@ public class SanPhamController {
     }
     @DeleteMapping("/xoa/{id}")
     public APIResponse deletedanhmuc(@PathVariable Long id) {
-        // Logic để xóa kho từ cơ sở dữ liệu
-        // Ví dụ:
+        
         sanphamService.deleteSanPham(id);
 
-        // Tạo đối tượng APIResponse
         APIResponse response = new APIResponse(true, null, "danh muc đã được xóa thành công");
 
         return response;

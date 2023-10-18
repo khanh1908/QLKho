@@ -32,22 +32,14 @@ public class DanhMucController {
     }
     @PostMapping("/them")
     public APIResponse createDanhMuc(@RequestBody DanhMuc danhmuc) {
-        // Logic để thêm kho vào cơ sở dữ liệu
-        // Ví dụ:
         danhmucservice.createdanhMuc(danhmuc);
-
-        // Tạo đối tượng APIResponse
         APIResponse response = new APIResponse(true, danhmuc, "danh muc đã được thêm thành công");
 
         return response;
     }
     @DeleteMapping("/xoa/{id}")
     public APIResponse deletedanhmuc(@PathVariable Long id) {
-        // Logic để xóa kho từ cơ sở dữ liệu
-        // Ví dụ:
         danhmucservice.deletedanhMuc(id);
-
-        // Tạo đối tượng APIResponse
         APIResponse response = new APIResponse(true, null, "danh muc đã được xóa thành công");
 
         return response;

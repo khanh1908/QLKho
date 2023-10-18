@@ -88,7 +88,7 @@ public class PhieuXuatController {
 
         // Tạo chi tiết phiếu xuất và cập nhật thông tin vị trí kho
 
-        for (CTPX chiTietPhieuXuat : chiTietPhieuXuatList) { // Sửa CTPN thành CTPX
+        for (CTPX chiTietPhieuXuat : chiTietPhieuXuatList) {
             // Set thông tin từ DTO vào chi tiết phiếu xuất
             chiTietPhieuXuat.setPhieuxuat(phieuXuat);
             SanPham sanpham = sanPhamService.getSanPhamById(chiTietPhieuXuat.getSanpham().getId());
@@ -100,30 +100,9 @@ public class PhieuXuatController {
                 sanpham.setSoLuong(sanpham.getSoLuong() - chiTietPhieuXuat.getSoluong());
                 sanPhamService.updateSanPhamSl(sanpham);
     
-                // Tương tự, bạn cũng có thể xử lý việc cập nhật vị trí kho ở đây
             } else {
-                // Xử lý trường hợp số lượng sản phẩm không đủ để xuất
-                // Ví dụ: Thông báo lỗi hoặc xử lý khác tùy theo logic của bạn
                 return new APIResponse(false, null, "Số lượng sản phẩm không đủ để xuất");
             }
-            // ctpxService.createCTPX(chiTietPhieuXuat);
-            // System.out.println("aaaaaaaaaaaaaaa" + chiTietPhieuXuat);
-            // sanpham.setSoLuong(sanpham.getSoLuong() - chiTietPhieuXuat.getSoluong());
-            // sanPhamService.updateSanPhamSl(sanpham);
-
-            // Vitrikho viTriKho = vitriKhoService.getViTriKhoBySanPhamAndKho(sanpham, kho);
-            // if (viTriKho != null) {
-            // if (viTriKho.getSoLuong() >= chiTietPhieuXuat.getSoluong()) {
-            // viTriKho.setSoLuong(viTriKho.getSoLuong() - chiTietPhieuXuat.getSoluong());
-            // vitriKhoService.updatevitrikho(viTriKho);
-            // } else {
-            // // Xử lý trường hợp số lượng sản phẩm không đủ để xuất
-            // // ...
-            // }
-            // } else {
-            // // Xử lý trường hợp vị trí kho không tồn tại
-            // // ...
-            // }
         }
 
         APIResponse response = new APIResponse(true, phieuXuat, "Tạo phiếu xuất thành công");

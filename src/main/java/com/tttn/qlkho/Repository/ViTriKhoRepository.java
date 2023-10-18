@@ -15,4 +15,7 @@ public interface ViTriKhoRepository extends JpaRepository<Vitrikho, Long>{
     // boolean existsBySpAndKho(SanPham sanpham, Kho kho);
     List<Vitrikho> findByKhoId(long khoId);
     // List<Vitrikho> findBySpId(long spId);
+    // Vitrikho findByCot(String Cot);
+    // Vitrikho findByHang(String Hang);
+    // Vitrikho findByKe(String Ke);
 }

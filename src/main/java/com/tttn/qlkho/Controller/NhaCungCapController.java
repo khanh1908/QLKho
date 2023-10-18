@@ -32,22 +32,14 @@ public class NhaCungCapController {
     }
     @PostMapping("/them")
     public APIResponse createNhaCungCap(@RequestBody NhaCungCap nhacungcap) {
-        // Logic để thêm kho vào cơ sở dữ liệu
-        // Ví dụ:
         NhacungcapService.createNhacungCap(nhacungcap);
-
-        // Tạo đối tượng APIResponse
         APIResponse response = new APIResponse(true, nhacungcap, "nha cung cap đã được thêm thành công");
 
         return response;
     }
     @DeleteMapping("/xoa/{id}")
     public APIResponse deleteNhacungcap(@PathVariable Long id) {
-        // Logic để xóa kho từ cơ sở dữ liệu
-        // Ví dụ:
         NhacungcapService.deleteNcc(id);
-
-        // Tạo đối tượng APIResponse
         APIResponse response = new APIResponse(true, null, "nha cung cap đã được xóa thành công");
 
         return response;

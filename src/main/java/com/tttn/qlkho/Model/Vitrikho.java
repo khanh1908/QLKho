@@ -26,6 +26,9 @@ public class Vitrikho {
     @Column(name = "Ke")
     private String Ke;
 
+    @Column(name = "SoLuong")
+    private Integer SoLuong;
+
     @ManyToOne
     // @JsonIgnore
     @JoinColumn(name = "id_kho") // // thông qua khóa ngoại id

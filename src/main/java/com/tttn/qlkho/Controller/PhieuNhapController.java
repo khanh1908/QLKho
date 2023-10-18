@@ -98,7 +98,7 @@ public class PhieuNhapController {
         // Tạo đối tượng Phiếu Nhập và set thông tin từ người dùng
         PhieuNhap phieuNhap = new PhieuNhap();
         Date currentDate = new Date(System.currentTimeMillis());
-        phieuNhap.setNgayNhap(currentDate); 
+        phieuNhap.setNgayNhap(currentDate); // Hoặc bạn có thể lấy ngày nhập từ DTO nếu client gửi lên
         phieuNhap.setNhacungcap(nhaCungCapService.getNhacungCapById(nhaCungCapId));
         phieuNhap.setUser(userservice.getUserById(userId));
         // Lưu phiếu nhập
@@ -107,14 +107,25 @@ public class PhieuNhapController {
         // Tạo chi tiết phiếu nhập và lưu thông tin
 
         // SanPham sanpham = sanPhamService.getSanPhamById(sanphamId);
+        // Vitrikho vitrikho = new Vitrikho();
         for (CTPN chiTietPhieuNhap : chiTietPhieuNhapList) {
             // Set thông tin từ DTO vào chi tiết phiếu nhập
             chiTietPhieuNhap.setPhieunhap(phieuNhap);
             SanPham sanpham = sanPhamService.getSanPhamById(chiTietPhieuNhap.getSanpham().getId());
             chiTietPhieuNhap.setSanpham(sanpham);
             ctpnService.createCTPN(chiTietPhieuNhap);
-            sanpham.setSoLuong(sanpham.getSoLuong() + chiTietPhieuNhap.getSoluong());
-            sanPhamService.updateSanPhamSl(sanpham);
+            Vitrikho vitrikho = sanpham.getVitrikho();
+            if(vitrikho != null && vitrikho.getSoLuong() >= (sanpham.getSoLuong() + chiTietPhieuNhap.getSoluong())){
+                sanpham.setSoLuong(sanpham.getSoLuong() + chiTietPhieuNhap.getSoluong());
+                sanPhamService.updateSanPhamSl(sanpham);
+                APIResponse response = new APIResponse(true, phieuNhap, "Tao phieu nhap thanh cong");
+                return response;
+            }
+            else{
+                APIResponse response = new APIResponse(false, phieuNhap, "Vi tri " + sanpham.getTenSanPham() + " con lai " + (vitrikho.getSoLuong()- sanpham.getSoLuong()) );
+                return response;
+            }
+            
                 // APIResponse response = new APIResponse(true, viTriKho.getSoLuong(), "san pham da duoc them vao kho");
                 // return response;
             }
@@ -122,7 +133,7 @@ public class PhieuNhapController {
             // System.out.println("aaaaaaaaaaaaaa" + viTriKho);
             // viTriKho.setSoLuong(viTriKho.getSoLuong() + chiTietPhieuNhap.getSoluong());
             // vitriKhoService.updatevitrikho(viTriKho);
-        APIResponse response = new APIResponse(true, phieuNhap, "Tao phieu nhap thanh cong");
+        APIResponse response = new APIResponse(true, phieuNhap, "ok");
         return response;
     }
 

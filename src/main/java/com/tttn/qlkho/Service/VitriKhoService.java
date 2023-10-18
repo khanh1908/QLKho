@@ -47,4 +47,7 @@ public class VitriKhoService {
     public List<Vitrikho> getVitrikhoByKhoId(long khoId) {
         return VTKhorepo.findByKhoId(khoId);
     }
+    // public Vitrikho getVTCot(String Cot) {
+    //     return VTKhorepo.findByCot(Cot);
+    // }
 }

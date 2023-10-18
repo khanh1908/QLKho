@@ -9,5 +9,7 @@ import com.tttn.qlkho.Model.Kho;
 public interface KhoRepository extends JpaRepository<Kho, Long>{
 
     Kho findByTenKho(String TenKho);
+    Kho findByEmail(String Email);
+    Kho findBySDT(String SDT);
     // User findByuserName(String userName);
 }

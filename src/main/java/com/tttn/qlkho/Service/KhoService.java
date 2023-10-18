@@ -9,7 +9,7 @@ import com.tttn.qlkho.Model.Kho;
 import com.tttn.qlkho.Repository.KhoRepository;
 
 @Service
-public class KhoService {
+public class  KhoService {
     @Autowired
     private KhoRepository Khorepo;
 
@@ -31,6 +31,12 @@ public class KhoService {
     }
     public Kho getKhoByName(String a) {
         return Khorepo.findByTenKho(a);
+    }
+    public Kho getKhoByEmail(String email) {
+        return Khorepo.findByEmail(email);
+    }
+    public Kho getKhoBySDT(String sdt) {
+        return Khorepo.findBySDT(sdt);
     }
     public Kho findById(Long khoId) {
         return Khorepo.findById(khoId).orElse(null);

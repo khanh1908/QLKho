@@ -30,9 +30,11 @@ public class VitriKhoController {
         APIResponse response = new APIResponse(true, Vitrikholist, "danh sach vi tri kho đã được lấy thành công");
         return response;
     }
-    // @GetMapping("/sp/{spId}")
-    // public List<Vitrikho> getVitrikhoBySpId(@PathVariable long spId) {
-    //     return vitrikhoService.getVitrikhoBySpId(spId);
+    // @GetMapping("/kho/vitri")
+    // public APIResponse getVitrikhoBySpId(Vitrikho vitrikho) {
+    //     String Vitrikholist = vitrikho.getCot();
+    //     APIResponse response = new APIResponse(true, Vitrikholist, "danh sach vi tri kho đã được lấy thành công");
+    //     return response;
     // }
     @GetMapping("/kho/{khoId}")
     public List<Vitrikho> getVitrikhoBykhoId(@PathVariable long khoId) {
@@ -40,30 +42,19 @@ public class VitriKhoController {
     }
     @PostMapping("/them")
     public APIResponse createvitrikho(@RequestBody Vitrikho vitrikho) {
-        // vitrikho.setSoLuong(0);
-        // if (vitrikho.getSp() == null && vitrikho.getKho() == null){
-        //     APIResponse response = new APIResponse(false, null, "san pham va kho khong duoc bo trong");
-        //     return response;
-        // }
-        // boolean exists = vitrikhoService.doesVitrikhoExist(vitrikho.getSp(), vitrikho.getKho());
-        // if (exists){
-        //     APIResponse response = new APIResponse(true, null, "vi tri kho đã được chua san pham hoac kho tren");
+        // if(vitrikhoService.getVTCot(vitrikho.getCot()) != null){
+        //     APIResponse response = new APIResponse(true, vitrikho, "Cột đã tồn tại");
         //     return response;
         // }
         vitrikhoService.createvtkho(vitrikho);
 
-        // Tạo đối tượng APIResponse
         APIResponse response = new APIResponse(true, vitrikho, "vi tri kho đã được thêm thành công");
 
         return response;
     }
     @DeleteMapping("/xoa/{id}")
     public APIResponse deleteVtKho(@PathVariable Long id) {
-        // Logic để xóa kho từ cơ sở dữ liệu
-        // Ví dụ:
         vitrikhoService.deletevtkho(id);
-
-        // Tạo đối tượng APIResponse
         APIResponse response = new APIResponse(true, null, "vi tri kho đã được xóa thành công");
 
         return response;
