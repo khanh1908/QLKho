@@ -3,6 +3,8 @@ package com.tttn.qlkho.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import com.tttn.qlkho.Model.Kho;
 import com.tttn.qlkho.Model.SanPham;
 import com.tttn.qlkho.Response.APIResponse;
 import com.tttn.qlkho.Service.KhoService;
+import org.springframework.http.ResponseEntity;
+
 
 @RestController
 @RequestMapping("/kho")
@@ -42,49 +46,38 @@ public class KhoController {
         }
     }
     @PostMapping("/them")
-    public APIResponse createKho(@RequestBody Kho kho) {
-        if (khoService.getKhoByName(kho.getTenKho()) != null){
-            APIResponse response = new APIResponse(false, null, "Tên kho đã tồn tại");
-            return response;
+    public ResponseEntity createKho(@RequestBody Kho kho) {
+        if (khoService.getKhoByName(kho.getTenKho()) != null) {
+            return new ResponseEntity<>(new APIResponse(false, null, "Tên kho đã tồn tại"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        if (khoService.getKhoByEmail(kho.getEmail()) != null){
-            APIResponse response = new APIResponse(false, null, "Tên email đã tồn tại");
-            return response;
+
+        if (khoService.getKhoByEmail(kho.getEmail()) != null) {
+            return new ResponseEntity<>(new APIResponse(false, null, "Tên email đã tồn tại"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        if (khoService.getKhoBySDT(kho.getSDT()) != null){
-            APIResponse response = new APIResponse(false, null, "Số điện thoại đã tồn tại");
-            return response;
+
+        if (khoService.getKhoBySDT(kho.getSDT()) != null) {
+            return new ResponseEntity<>(new APIResponse(false, null, "Số điện thoại đã tồn tại"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         if (kho.getTenKho() == null || kho.getTenKho().isEmpty()) {
-            // Trường tên kho không được trống
-            APIResponse response = new APIResponse(false, null, "Tên kho không được trống");
-            return response;
+            return new ResponseEntity<>(new APIResponse(false, null, "Tên kho không được trống"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    
+
         if (kho.getEmail() == null || kho.getEmail().isEmpty()) {
-            // Trường email không được trống
-            APIResponse response = new APIResponse(false, null, "Email không được trống");
-            return response;
+            return new ResponseEntity<>(new APIResponse(false, null, "Email không được trống"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    
+
         if (kho.getSDT() == null || kho.getSDT().isEmpty()) {
-            // Trường số điện thoại không được trống
-            APIResponse response = new APIResponse(false, null, "Số điện thoại không được trống");
-            return response;
+            return new ResponseEntity<>(new APIResponse(false, null, "Số điện thoại không được trống"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    
+
         if (kho.getAddress() == null || kho.getAddress().isEmpty()) {
-            // Trường địa chỉ không được trống
-            APIResponse response = new APIResponse(false, null, "Địa chỉ không được trống");
-            return response;
+            return new ResponseEntity<>(new APIResponse(false, null, "Địa chỉ không được trống"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    
-        //thêm kho vào cơ sở dữ liệu
-        khoService.createKho(kho);
-    
-        APIResponse response = new APIResponse(true, kho, "Kho đã được thêm thành công");
-    
-        return response;
+
+    khoService.createKho(kho);
+
+    return new ResponseEntity<>(new APIResponse(true, kho, "Kho đã được thêm thành công"), HttpStatus.OK);
     }
     @DeleteMapping("/xoa/{id}")
     public APIResponse deleteKho(@PathVariable Long id) {
