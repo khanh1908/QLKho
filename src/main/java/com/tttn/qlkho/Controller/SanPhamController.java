@@ -42,7 +42,7 @@ public class SanPhamController {
     public APIResponse createDanhMuc(@RequestBody SanPham sanpham) {
         sanpham.setTrangThai("Còn Hạn");
         sanphamService.createSanPham(sanpham);
-        APIResponse response = new APIResponse(true, sanpham, "danh muc đã được thêm thành công");
+        APIResponse response = new APIResponse(true, sanpham, "Sản phẩm đã được thêm thành công");
         return response;
     }
     @DeleteMapping("/xoa/{id}")
@@ -50,7 +50,7 @@ public class SanPhamController {
         
         sanphamService.deleteSanPham(id);
 
-        APIResponse response = new APIResponse(true, null, "danh muc đã được xóa thành công");
+        APIResponse response = new APIResponse(true, null, "Sản phẩm đã được xóa thành công");
 
         return response;
     }
@@ -85,7 +85,7 @@ public class SanPhamController {
         try{
         SanPham updateSanpham = sanphamService.getSanPhamById(id);
             if(updateSanpham==null) {
-                APIResponse response = new APIResponse(false, null, "danh muc khong co");
+                APIResponse response = new APIResponse(false, null, "Sản phẩm khong co");
                 return response;
             }else {
                 if (sanPham.getTenSanPham() != null) {
