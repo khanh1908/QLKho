@@ -81,11 +81,14 @@ public class KhoController {
     }
     @DeleteMapping("/xoa/{id}")
     public APIResponse deleteKho(@PathVariable Long id) {
-        khoService.deleteKho(id);
-
-        APIResponse response = new APIResponse(true, null, "Kho đã được xóa thành công");
-
-        return response;
+        try {
+            khoService.deleteKho(id);
+            APIResponse response = new APIResponse(true, null, "Kho đã được xóa thành công");
+            return response;
+        } catch (Exception e) {
+            APIResponse response = new APIResponse(true, null, "Kho đã được sử dụng");
+            return response;
+        }
     }
     @PutMapping("/sua/{id}")
     public APIResponse suaKho(@PathVariable long id, @RequestBody Kho kho) {

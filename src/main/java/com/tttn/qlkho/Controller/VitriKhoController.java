@@ -54,10 +54,14 @@ public class VitriKhoController {
     }
     @DeleteMapping("/xoa/{id}")
     public APIResponse deleteVtKho(@PathVariable Long id) {
-        vitrikhoService.deletevtkho(id);
-        APIResponse response = new APIResponse(true, null, "vi tri kho đã được xóa thành công");
-
-        return response;
+        try {
+            vitrikhoService.deletevtkho(id);
+            APIResponse response = new APIResponse(true, null, "vi tri kho đã được xóa thành công");
+            return response;
+        } catch (Exception e) {
+            APIResponse response = new APIResponse(true, null, "vi tri kho đã được sử dụng!");
+            return response;
+        }
     }
     @PutMapping("/sua/{id}")
     public APIResponse SuaNhaCungCap(@PathVariable long id, @RequestBody Vitrikho vitrokho) {

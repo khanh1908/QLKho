@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tttn.qlkho.Model.Kho;
 import com.tttn.qlkho.Model.NhaCungCap;
 import com.tttn.qlkho.Response.APIResponse;
 import com.tttn.qlkho.Service.NhaCungCapService;
@@ -39,10 +40,23 @@ public class NhaCungCapController {
     }
     @DeleteMapping("/xoa/{id}")
     public APIResponse deleteNhacungcap(@PathVariable Long id) {
-        NhacungcapService.deleteNcc(id);
-        APIResponse response = new APIResponse(true, null, "nha cung cap đã được xóa thành công");
-
-        return response;
+        try {
+            NhacungcapService.deleteNcc(id);
+            APIResponse response = new APIResponse(true, null, "nha cung cap đã được xóa thành công");
+            return response;
+        } catch (Exception e) {
+            APIResponse response = new APIResponse(true, null, "nha cung cap đã tồn tại");
+            return response;
+        }
+    }
+    @GetMapping("/{id}")
+    public APIResponse getNhaCungCapByID(@PathVariable long id) {
+        try {
+            NhaCungCap nhacungcap = NhacungcapService.getNhacungCapById(id);
+            return new APIResponse(true, nhacungcap, "Tìm kiếm kho thanh cong: "+id);
+        } catch (Exception e) {
+            return new APIResponse(false, null, "tim kiem khong thanh cong");
+        }
     }
     @PutMapping("/sua/{id}")
     public APIResponse SuaNhaCungCap(@PathVariable long id, @RequestBody NhaCungCap nhacungcap) {

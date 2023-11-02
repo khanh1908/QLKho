@@ -39,10 +39,14 @@ public class DanhMucController {
     }
     @DeleteMapping("/xoa/{id}")
     public APIResponse deletedanhmuc(@PathVariable Long id) {
-        danhmucservice.deletedanhMuc(id);
-        APIResponse response = new APIResponse(true, null, "danh muc đã được xóa thành công");
-
-        return response;
+        try {
+            danhmucservice.deletedanhMuc(id);
+            APIResponse response = new APIResponse(true, null, "danh muc đã được xóa thành công");
+            return response;
+        } catch (Exception e) {
+            APIResponse response = new APIResponse(true, null, "danh mục đã được sử dụng");
+            return response;
+        }
     }
     @PutMapping("/sua/{id}")
     public APIResponse suadanhmuc(@PathVariable long id, @RequestBody DanhMuc danhmuc) {
