@@ -11,7 +11,7 @@ public class scheduler {
     @Autowired
     private SanPhamService sanPhamService;
 
-    @Scheduled(fixedRate = 50000000)
+    @Scheduled(fixedRate = 5000)
     public void updateProductStatus() {
         sanPhamService.updateTrangThaiSp();
     }
