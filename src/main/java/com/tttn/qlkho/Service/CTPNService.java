@@ -25,8 +25,6 @@ import com.tttn.qlkho.Repository.CTPXRepository;
 public class CTPNService {
     @Autowired
     private CTPNRepository CTPNrepository;
-    @Autowired
-    private CTPXRepository CTPXRepository;
 
     public List<CTPN> getAllCTPN(){
         return  CTPNrepository.findAll();

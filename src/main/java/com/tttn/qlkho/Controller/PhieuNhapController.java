@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -86,56 +87,62 @@ public class PhieuNhapController {
         return ctpnService.getCTPNByIDPN(idPhieuNhap);
     }
     @PostMapping("/create")
-    public APIResponse createPhieuNhap(@RequestBody PhieuNhapRequest request) {
-        // Lấy thông tin từ DTO
-        Long nhaCungCapId = request.getNhaCungCapId();
-        Long userId = request.getUserId();
-        List<CTPN> chiTietPhieuNhapList = request.getChiTietPhieuNhapList();
-        // List<Vitrikho> viTriKhoList = request.getViTriKhoList();
-        // Long VitrikhoId = request.getVitrikhoId();
-        // Long sanphamId = request.getSanphamId();
+public APIResponse createPhieuNhap(@RequestBody PhieuNhapRequest request) {
+    // Lấy thông tin từ DTO
+    Long nhaCungCapId = request.getNhaCungCapId();
+    Long userId = request.getUserId();
+    List<CTPN> chiTietPhieuNhapList = request.getChiTietPhieuNhapList();
 
-        // Tạo đối tượng Phiếu Nhập và set thông tin từ người dùng
-        PhieuNhap phieuNhap = new PhieuNhap();
-        Date currentDate = new Date(System.currentTimeMillis());
-        phieuNhap.setNgayNhap(currentDate); // Hoặc bạn có thể lấy ngày nhập từ DTO nếu client gửi lên
-        phieuNhap.setNhacungcap(nhaCungCapService.getNhacungCapById(nhaCungCapId));
-        phieuNhap.setUser(userservice.getUserById(userId));
-        // Lưu phiếu nhập
-        phieuNhap = phieuNhapService.createPhieuNhap(phieuNhap);
+    // Tạo đối tượng Phiếu Nhập và set thông tin từ người dùng
+    PhieuNhap phieuNhap = new PhieuNhap();
+    Date currentDate = new Date(System.currentTimeMillis());
+    phieuNhap.setNgayNhap(currentDate);
+    phieuNhap.setNhacungcap(nhaCungCapService.getNhacungCapById(nhaCungCapId));
+    phieuNhap.setUser(userservice.getUserById(userId));
 
-        // Tạo chi tiết phiếu nhập và lưu thông tin
+    // Lưu phiếu nhập
+    phieuNhap = phieuNhapService.createPhieuNhap(phieuNhap);
 
-        // SanPham sanpham = sanPhamService.getSanPhamById(sanphamId);
-        // Vitrikho vitrikho = new Vitrikho();
-        for (CTPN chiTietPhieuNhap : chiTietPhieuNhapList) {
-            // Set thông tin từ DTO vào chi tiết phiếu nhập
-            chiTietPhieuNhap.setPhieunhap(phieuNhap);
-            SanPham sanpham = sanPhamService.getSanPhamById(chiTietPhieuNhap.getSanpham().getId());
-            chiTietPhieuNhap.setSanpham(sanpham);
-            ctpnService.createCTPN(chiTietPhieuNhap);
-            Vitrikho vitrikho = sanpham.getVitrikho();
-            if(vitrikho != null && vitrikho.getSoLuong() >= (sanpham.getSoLuong() + chiTietPhieuNhap.getSoluong())){
-                sanpham.setSoLuong(sanpham.getSoLuong() + chiTietPhieuNhap.getSoluong());
-                sanPhamService.updateSanPhamSl(sanpham);
-                APIResponse response = new APIResponse(true, phieuNhap, "Tao phieu nhap thanh cong");
-                return response;
-            }
-            else{
-                APIResponse response = new APIResponse(false, phieuNhap, "Vi tri " + sanpham.getTenSanPham() + " con lai " + (vitrikho.getSoLuong()- sanpham.getSoLuong()) );
-                return response;
-            }
-            
-                // APIResponse response = new APIResponse(true, viTriKho.getSoLuong(), "san pham da duoc them vao kho");
-                // return response;
-            }
-            // Vitrikho viTriKho = vitriKhoService.getViTriKhoBySanPhamAndKho(sanpham, kho);
-            // System.out.println("aaaaaaaaaaaaaa" + viTriKho);
-            // viTriKho.setSoLuong(viTriKho.getSoLuong() + chiTietPhieuNhap.getSoluong());
-            // vitriKhoService.updatevitrikho(viTriKho);
-        APIResponse response = new APIResponse(true, phieuNhap, "ok");
-        return response;
+    // Tạo chi tiết phiếu nhập và lưu thông tin
+
+    // SanPham sanpham = sanPhamService.getSanPhamById(sanphamId);
+    // Vitrikho vitrikho = new Vitrikho();
+    Map<Long, CTPN> productQuantityMap = new HashMap<>();
+    for (CTPN chiTietPhieuNhap : chiTietPhieuNhapList) {
+        // Set thông tin từ DTO vào chi tiết phiếu nhập
+        chiTietPhieuNhap.setPhieunhap(phieuNhap);
+        SanPham sanpham = sanPhamService.getSanPhamById(chiTietPhieuNhap.getSanpham().getId());
+        chiTietPhieuNhap.setSanpham(sanpham);
+
+        if (productQuantityMap.containsKey(sanpham.getId())) {
+            // If yes, aggregate the quantity
+            CTPN existingCTPN = productQuantityMap.get(sanpham.getId());
+            existingCTPN.setSoluong(existingCTPN.getSoluong() + chiTietPhieuNhap.getSoluong());
+        } else {
+            // If not, add it to the map
+            productQuantityMap.put(sanpham.getId(), chiTietPhieuNhap);
+        }
+
+        Vitrikho vitrikho = sanpham.getVitrikho();
+        if (vitrikho != null && vitrikho.getSoLuong() >= (sanpham.getSoLuong() + chiTietPhieuNhap.getSoluong())) {
+            // No need to create CTPN here
+            sanpham.setSoLuong(sanpham.getSoLuong() + chiTietPhieuNhap.getSoluong());
+            sanPhamService.updateSanPhamSl(sanpham);
+        } else {
+            APIResponse response = new APIResponse(false, phieuNhap,
+                    "Vi tri " + sanpham.getTenSanPham() + " con lai " + (vitrikho.getSoLuong() - sanpham.getSoLuong()));
+            return response;
+        }
     }
+
+    // Create CTPN after processing the loop
+    for (CTPN aggregatedCTPN : productQuantityMap.values()) {
+        ctpnService.createCTPN(aggregatedCTPN);
+    }
+
+    APIResponse response = new APIResponse(true, phieuNhap, "ok");
+    return response;
+}
 
     @GetMapping("/soluongsanpham")
     public APIResponse thongKeSoLuongSanPhamController() {

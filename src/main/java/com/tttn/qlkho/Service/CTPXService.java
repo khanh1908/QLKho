@@ -31,8 +31,8 @@ public class CTPXService {
     public CTPX getCTPXById(Long id) {
         return CTPXrepository.findById(id).orElse(null);
     }
-    public CTPX createCTPX(CTPX ctpx) {
-        return CTPXrepository.save(ctpx);
+    public CTPX createCTPX(CTPX chiTietPhieuXuat) {
+        return CTPXrepository.save(chiTietPhieuXuat);
     }
     public CTPX updateCTPX(Long id, CTPX ctpx) {
         return CTPXrepository.save(ctpx);
