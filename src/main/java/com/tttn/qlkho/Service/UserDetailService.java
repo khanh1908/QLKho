@@ -33,6 +33,15 @@ public class UserDetailService implements UserDetailsService {
     public User findByUsername(String username) {
         return userRepository.findByUserName(username);
     }
+    public User getUserByCCCD(String cccd) {
+        return userRepository.findByCCCD(cccd);
+    }
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+    public User getUserBySDT(String sdt) {
+        return userRepository.findBySDT(sdt);
+    }
     public User createUser(User user) {
         // Kiểm tra xem người dùng đã tồn tại chưa
         if (findByUsername(user.getUserName()) != null ) {

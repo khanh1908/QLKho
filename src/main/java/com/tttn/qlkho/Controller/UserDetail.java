@@ -39,8 +39,26 @@ public class UserDetail {
                 if (user.getCCCD() != null) {
                     UpdateUser.setCCCD(user.getCCCD());
                 }
-                if (user.getEmail() != null) {
-                    UpdateUser.setEmail(user.getEmail());
+                if (user.getCCCD() == null || user.getCCCD().isEmpty()) {
+                    APIResponse response = new APIResponse(false, null, "CCCD không được để trống");
+                    return response;
+                }
+    
+                User existingUserByCCCD = UserService.getUserByCCCD(user.getCCCD());
+                if (existingUserByCCCD != null && existingUserByCCCD.getId() != id) {
+                    APIResponse response = new APIResponse(false, null, "CCCD đã được sử dụng");
+                    return response;
+                }
+                if (user.getEmail() == null || user.getEmail().isEmpty()) {
+                    APIResponse response = new APIResponse(false, null, "Email không được để trống");
+                    return response;
+                }
+    
+                // Check for duplicate email
+                User existingUserByEmail = UserService.getUserByEmail(user.getEmail());
+                if (existingUserByEmail != null && existingUserByEmail.getId() != id) {
+                    APIResponse response = new APIResponse(false, null, "Email đã được sử dụng");
+                    return response;
                 }
                 if (user.getHo() != null) {
                     UpdateUser.setHo(user.getHo());
@@ -48,8 +66,16 @@ public class UserDetail {
                 if (user.getTen() != null) {
                     UpdateUser.setTen(user.getTen());
                 }
-                if (user.getSDT() != null) {
-                    UpdateUser.setSDT(user.getSDT());
+                if (user.getSDT() == null || user.getSDT().isEmpty()) {
+                    APIResponse response = new APIResponse(false, null, "Số điện thoại không được để trống");
+                    return response;
+                }
+    
+                // Check for duplicate phone number
+                User existingUserBySDT = UserService.getUserBySDT(user.getSDT());
+                if (existingUserBySDT != null && existingUserBySDT.getId() != id) {
+                    APIResponse response = new APIResponse(false, null, "Số điện thoại đã được sử dụng");
+                    return response;
                 }
                 UserService.updateUser(id, UpdateUser);
                 APIResponse response = new APIResponse(true, UpdateUser, "ok");
