@@ -21,6 +21,9 @@ public class PhieuNhap {
     @Column(name = "ngay_nhap",nullable = false)
     private Date ngayNhap;
 
+    @Column(name = "trang_thai")
+    private int trangthai;
+
     @ManyToOne
     // @JsonIgnore
     @JoinColumn(name = "id_user") // // thông qua khóa ngoại id

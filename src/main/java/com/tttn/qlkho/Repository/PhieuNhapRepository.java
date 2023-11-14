@@ -1,6 +1,7 @@
 package com.tttn.qlkho.Repository;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,5 @@ public interface PhieuNhapRepository extends JpaRepository<PhieuNhap, Long> {
     //         @Param("pGia") BigDecimal gia,
     //         @Param("pSoLuong") int soLuong
     // );
+    List<PhieuNhap> findByTrangthai(int trangthai);
 }

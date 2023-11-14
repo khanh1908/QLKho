@@ -2,6 +2,7 @@ package com.tttn.qlkho.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,16 @@ public class PhieuNhapService {
     }
     public List<PhieuNhap> getAllPN(){
         return  phieunhaprepo.findAll();
+    }
+    public List<PhieuNhap> getPhieuNhapByTrangThai(int trangthai) {
+        return phieunhaprepo.findByTrangthai(trangthai);
+    }
+    public Optional<PhieuNhap> updatePhieuNhapStatus(long id, int newStatus) {
+        Optional<PhieuNhap> existingPhieuNhap = phieunhaprepo.findById(id);
+        existingPhieuNhap.ifPresent(phieuNhap -> {
+            phieuNhap.setTrangthai(newStatus);
+            phieunhaprepo.save(phieuNhap);
+        });
+        return existingPhieuNhap;
     }
 }

@@ -17,6 +17,9 @@ public class PhieuXuat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "trang_thai")
+    private int trangthai;
+
     @Column(name = "ngay_xuat",nullable = false)
     private Date ngayxuat;
 
