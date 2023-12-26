@@ -120,7 +120,7 @@ public APIResponse createPhieuXuat(@RequestBody PhieuXuatRequest request) {
         ctpxService.createCTPX(aggregatedCTPX);
     }
 
-    APIResponse response = new APIResponse(true, phieuXuat, "Tạo phiếu xuất thành công");
+    APIResponse response = new APIResponse(true, phieuXuat, "Tạo phiếu xuất thành công!");
     return response;
 }
 
